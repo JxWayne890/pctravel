@@ -11,6 +11,7 @@
     packages: "pcFantasyPackages",
     leads: "pcFantasyLeads"
   };
+  const leadStatuses = ["New", "Contacted", "Quoted", "Booked", "Closed"];
 
   const defaultPackages = Array.isArray(window.PC_FANTASY_PACKAGES) ? window.PC_FANTASY_PACKAGES : [];
   const packageFilters = Array.isArray(window.PC_PACKAGE_FILTERS) ? window.PC_PACKAGE_FILTERS : [];
@@ -227,22 +228,42 @@
       vendorLinkUsed: get("vendorLinkUsed"),
       notes: get("notes"),
       consents: getAll("consent"),
-      tags: buildLeadTags(formType, get("leadType"), getAll("travelStyle"))
+      tags: buildLeadTags(formType, get("leadType"), getAll("travelStyle")),
+      status: "New",
+      sourcePage: document.title,
+      sourceUrl: window.location.href
     };
   }
 
-  function saveLead(lead) {
+  function getLeads() {
     const saved = localStorage.getItem(storageKeys.leads);
-    let leads = [];
-    if (saved) {
-      try {
-        leads = JSON.parse(saved);
-      } catch (error) {
-        leads = [];
-      }
+    if (!saved) return [];
+    try {
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed.map(normalizeLead) : [];
+    } catch (error) {
+      return [];
     }
-    leads.push(lead);
-    localStorage.setItem(storageKeys.leads, JSON.stringify(leads, null, 2));
+  }
+
+  function saveLeads(leads) {
+    localStorage.setItem(storageKeys.leads, JSON.stringify(leads.map(normalizeLead), null, 2));
+  }
+
+  function normalizeLead(lead, index) {
+    const normalized = Object.assign({}, lead || {});
+    normalized.id = normalized.id || `lead-${normalized.submittedAt || Date.now()}-${index || 0}`;
+    normalized.status = leadStatuses.includes(normalized.status) ? normalized.status : "New";
+    normalized.tags = Array.isArray(normalized.tags) ? normalized.tags : textToList(String(normalized.tags || ""));
+    normalized.consents = Array.isArray(normalized.consents) ? normalized.consents : textToList(String(normalized.consents || ""));
+    normalized.travelStyles = Array.isArray(normalized.travelStyles) ? normalized.travelStyles : textToList(String(normalized.travelStyles || ""));
+    return normalized;
+  }
+
+  function saveLead(lead) {
+    const leads = getLeads();
+    leads.push(normalizeLead(lead));
+    saveLeads(leads);
   }
 
   async function postLead(lead) {
@@ -332,6 +353,122 @@
     const adminRoot = document.querySelector("[data-admin-root]");
     if (!adminRoot) return;
 
+    initAdminTabs(adminRoot);
+    initLeadAdmin(adminRoot);
+    initPackageAdmin(adminRoot);
+  }
+
+  function initAdminTabs(adminRoot) {
+    const tabs = adminRoot.querySelectorAll("[data-admin-tab]");
+    const views = adminRoot.querySelectorAll("[data-admin-view]");
+    if (!tabs.length || !views.length) return;
+
+    const activate = (section) => {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.adminTab === section;
+        tab.classList.toggle("is-active", isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+      });
+
+      views.forEach((view) => {
+        const isActive = view.dataset.adminView === section;
+        view.classList.toggle("hidden", !isActive);
+        view.hidden = !isActive;
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const section = tab.dataset.adminTab || "leads";
+        activate(section);
+        if (history.replaceState) {
+          history.replaceState(null, "", `#${section}`);
+        }
+      });
+    });
+
+    activate(window.location.hash.replace("#", "") === "packages" ? "packages" : "leads");
+  }
+
+  function initLeadAdmin(adminRoot) {
+    const leadRoot = adminRoot.querySelector("[data-admin-view='leads']");
+    if (!leadRoot) return;
+
+    let leads = getLeads().sort(sortNewest);
+    let selectedId = leads[0]?.id || "";
+    const list = leadRoot.querySelector("[data-leads-list]");
+    const detail = leadRoot.querySelector("[data-lead-detail]");
+    const stats = leadRoot.querySelector("[data-lead-stats]");
+    const search = leadRoot.querySelector("[data-lead-search]");
+    const typeFilter = leadRoot.querySelector("[data-lead-type-filter]");
+    const statusFilter = leadRoot.querySelector("[data-lead-status-filter]");
+    const exportCsv = leadRoot.querySelector("[data-leads-export-csv]");
+    const exportJson = leadRoot.querySelector("[data-leads-export-json]");
+
+    const filteredLeads = () => {
+      const query = String(search?.value || "").trim().toLowerCase();
+      const selectedType = String(typeFilter?.value || "").trim();
+      const selectedStatus = String(statusFilter?.value || "").trim();
+
+      return leads.filter((lead) => {
+        const matchesQuery = !query || leadSearchText(lead).includes(query);
+        const matchesType = !selectedType || getLeadType(lead) === selectedType;
+        const matchesStatus = !selectedStatus || lead.status === selectedStatus;
+        return matchesQuery && matchesType && matchesStatus;
+      });
+    };
+
+    const render = () => {
+      leads = getLeads().sort(sortNewest);
+      populateLeadTypeFilter(typeFilter, leads);
+      renderLeadStats(stats, leads);
+
+      const visibleLeads = filteredLeads();
+      if (!visibleLeads.some((lead) => lead.id === selectedId)) {
+        selectedId = visibleLeads[0]?.id || leads[0]?.id || "";
+      }
+
+      renderLeadList(list, visibleLeads, selectedId);
+      renderLeadDetail(detail, leads.find((lead) => lead.id === selectedId));
+    };
+
+    list?.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-lead-id]");
+      if (!button) return;
+      selectedId = button.dataset.leadId;
+      render();
+    });
+
+    detail?.addEventListener("change", (event) => {
+      const statusSelect = event.target.closest("[data-lead-status]");
+      if (!statusSelect) return;
+      leads = getLeads().sort(sortNewest).map((lead) => {
+        if (lead.id !== statusSelect.dataset.leadStatus) return lead;
+        return Object.assign({}, lead, {
+          status: statusSelect.value,
+          statusUpdatedAt: new Date().toISOString()
+        });
+      });
+      saveLeads(leads);
+      render();
+    });
+
+    search?.addEventListener("input", render);
+    typeFilter?.addEventListener("change", render);
+    statusFilter?.addEventListener("change", render);
+
+    exportCsv?.addEventListener("click", () => {
+      downloadCsv("pc-fantasy-leads.csv", filteredLeads());
+    });
+
+    exportJson?.addEventListener("click", () => {
+      downloadJson("pc-fantasy-leads.json", filteredLeads());
+    });
+
+    render();
+  }
+
+  function initPackageAdmin(adminRoot) {
     let packages = getPackages().map((pkg) => Object.assign({}, pkg));
     let selectedId = packages[0]?.id || "";
     const list = adminRoot.querySelector("[data-admin-list]");
@@ -417,6 +554,250 @@
     render();
   }
 
+  function sortNewest(a, b) {
+    return new Date(b.submittedAt || 0).getTime() - new Date(a.submittedAt || 0).getTime();
+  }
+
+  function getLeadType(lead) {
+    return lead.leadType || lead.formType || "General";
+  }
+
+  function getLeadName(lead) {
+    return [lead.firstName, lead.lastName].filter(Boolean).join(" ").trim() || "Unnamed Lead";
+  }
+
+  function leadSearchText(lead) {
+    return [
+      getLeadName(lead),
+      lead.email,
+      lead.phone,
+      getLeadType(lead),
+      lead.destination,
+      lead.departureCity,
+      lead.packageName,
+      lead.notes,
+      lead.tags
+    ]
+      .flat()
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+  }
+
+  function populateLeadTypeFilter(select, leads) {
+    if (!select) return;
+    const current = select.value;
+    const types = Array.from(new Set(leads.map(getLeadType).filter(Boolean))).sort();
+    select.innerHTML = `<option value="">All types</option>${types.map((type) => `<option${type === current ? " selected" : ""}>${escapeHtml(type)}</option>`).join("")}`;
+  }
+
+  function renderLeadStats(container, leads) {
+    if (!container) return;
+    const total = leads.length;
+    const newCount = leads.filter((lead) => lead.status === "New").length;
+    const activeCount = leads.filter((lead) => ["Contacted", "Quoted"].includes(lead.status)).length;
+    const bookedCount = leads.filter((lead) => lead.status === "Booked").length;
+    container.innerHTML = [
+      statPill(total, "Total"),
+      statPill(newCount, "New"),
+      statPill(activeCount, "Active"),
+      statPill(bookedCount, "Booked")
+    ].join("");
+  }
+
+  function statPill(value, label) {
+    return `<div class="stat-pill"><strong>${escapeHtml(value)}</strong><span>${escapeHtml(label)}</span></div>`;
+  }
+
+  function renderLeadList(container, leads, selectedId) {
+    if (!container) return;
+    if (!leads.length) {
+      container.innerHTML = `<div class="empty-state"><h3>No leads found</h3><p>Submitted requests will appear here.</p></div>`;
+      return;
+    }
+
+    container.innerHTML = leads.map((lead) => {
+      const isSelected = lead.id === selectedId;
+      return `
+        <button class="lead-card${isSelected ? " is-selected" : ""}" type="button" data-lead-id="${escapeAttribute(lead.id)}">
+          <span class="lead-card-top">
+            <strong>${escapeHtml(getLeadName(lead))}</strong>
+            <span class="status-badge">${escapeHtml(lead.status)}</span>
+          </span>
+          <span class="lead-contact">${escapeHtml([lead.email, lead.phone].filter(Boolean).join(" / ") || "No contact details")}</span>
+          <span class="lead-meta">${escapeHtml(formatDate(lead.submittedAt))} | ${escapeHtml(getLeadType(lead))}</span>
+        </button>
+      `;
+    }).join("");
+  }
+
+  function renderLeadDetail(container, lead) {
+    if (!container) return;
+    if (!lead) {
+      container.innerHTML = `<div class="empty-state"><h3>No lead selected</h3><p>Choose a lead to view the full request.</p></div>`;
+      return;
+    }
+
+    const payload = buildPayload(lead);
+    container.innerHTML = `
+      <div class="lead-detail-head">
+        <div>
+          <p class="eyebrow">${escapeHtml(getLeadType(lead))}</p>
+          <h2>${escapeHtml(getLeadName(lead))}</h2>
+          <p>${escapeHtml(formatDate(lead.submittedAt))}</p>
+        </div>
+        <div class="field lead-status-field">
+          <label for="status-${escapeAttribute(lead.id)}">Status</label>
+          <select id="status-${escapeAttribute(lead.id)}" data-lead-status="${escapeAttribute(lead.id)}">
+            ${leadStatuses.map((status) => `<option${status === lead.status ? " selected" : ""}>${escapeHtml(status)}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+      <div class="cta-row">
+        ${lead.email ? `<a class="button-outline small" href="mailto:${escapeAttribute(lead.email)}">Email</a>` : ""}
+        ${lead.phone ? `<a class="button-outline small" href="tel:${escapeAttribute(lead.phone)}">Call</a>` : ""}
+      </div>
+      ${detailGroup("Contact", [
+        ["Email", lead.email],
+        ["Phone", lead.phone],
+        ["Preferred contact", lead.preferredContact],
+        ["Best time", lead.bestTime],
+        ["City/state", lead.cityState],
+        ["Time zone", lead.timeZone]
+      ])}
+      ${detailGroup("Trip", [
+        ["Destination", lead.destination],
+        ["Departure city", lead.departureCity],
+        ["Travel dates", lead.travelDates],
+        ["Dates flexible", lead.datesFlexible],
+        ["Trip length", lead.tripLength],
+        ["Travelers", lead.travelers || [lead.adults && `${lead.adults} adults`, lead.childrenAges].filter(Boolean).join(", ")],
+        ["Rooms/cabins", lead.roomsCabins],
+        ["Occasion", lead.occasion]
+      ])}
+      ${detailGroup("Budget And Preferences", [
+        ["Total budget", lead.totalBudget],
+        ["Budget per person", lead.budgetPerPerson],
+        ["Budget includes flights", lead.budgetIncludesFlights],
+        ["Ready to book", lead.readyToBook],
+        ["Payment plan", lead.paymentPlan],
+        ["Deposit range", lead.depositRange],
+        ["Travel styles", lead.travelStyles],
+        ["Preferred vendor", lead.preferredVendor],
+        ["Virgin Voyages", lead.virginVoyages],
+        ["Carnival", lead.carnival],
+        ["Star rating", lead.starRating],
+        ["Room preference", lead.roomPreference],
+        ["Excursions", lead.excursions],
+        ["Dietary needs", lead.dietaryNeeds],
+        ["Accessibility needs", lead.accessibilityNeeds],
+        ["Passport status", lead.passportStatus],
+        ["Valid passports", lead.validPassports],
+        ["Travel insurance", lead.travelInsurance],
+        ["Do not want", lead.doNotWant]
+      ])}
+      ${detailGroup("Package And Notes", [
+        ["Package interest", lead.packageInterest],
+        ["Package name", lead.packageName],
+        ["Vendor link used", lead.vendorLinkUsed],
+        ["Notes", lead.notes],
+        ["Consents", lead.consents],
+        ["Tags", lead.tags],
+        ["Source page", lead.sourcePage]
+      ])}
+      ${payload.emails?.leadNotification ? `
+        <div class="lead-detail-section">
+          <h3>Email Draft</h3>
+          <p><strong>${escapeHtml(payload.emails.leadNotification.subject)}</strong></p>
+          <pre class="admin-preview">${escapeHtml(payload.emails.leadNotification.body)}</pre>
+        </div>
+      ` : ""}
+      <div class="lead-detail-section">
+        <h3>Full Lead JSON</h3>
+        <pre class="admin-preview">${escapeHtml(JSON.stringify(lead, null, 2))}</pre>
+      </div>
+    `;
+  }
+
+  function detailGroup(title, rows) {
+    const visibleRows = rows.filter((row) => formatValue(row[1]));
+    if (!visibleRows.length) return "";
+    return `
+      <div class="lead-detail-section">
+        <h3>${escapeHtml(title)}</h3>
+        <dl class="detail-list">
+          ${visibleRows.map(([label, value]) => `
+            <div>
+              <dt>${escapeHtml(label)}</dt>
+              <dd>${escapeHtml(formatValue(value))}</dd>
+            </div>
+          `).join("")}
+        </dl>
+      </div>
+    `;
+  }
+
+  function formatValue(value) {
+    if (Array.isArray(value)) return value.filter(Boolean).join(", ");
+    return String(value || "").trim();
+  }
+
+  function formatDate(value) {
+    if (!value) return "Date not saved";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    return new Intl.DateTimeFormat("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short"
+    }).format(date);
+  }
+
+  function downloadCsv(filename, leads) {
+    const headers = [
+      "Submitted",
+      "Status",
+      "Lead Type",
+      "First Name",
+      "Last Name",
+      "Email",
+      "Phone",
+      "Preferred Contact",
+      "Destination",
+      "Travel Dates",
+      "Travelers",
+      "Budget",
+      "Package",
+      "Notes",
+      "Tags"
+    ];
+    const rows = leads.map((lead) => [
+      lead.submittedAt,
+      lead.status,
+      getLeadType(lead),
+      lead.firstName,
+      lead.lastName,
+      lead.email,
+      lead.phone,
+      lead.preferredContact,
+      lead.destination,
+      lead.travelDates,
+      lead.travelers || [lead.adults && `${lead.adults} adults`, lead.childrenAges].filter(Boolean).join(", "),
+      lead.totalBudget || lead.budgetPerPerson,
+      lead.packageName,
+      lead.notes,
+      lead.tags
+    ]);
+    const csv = [headers, ...rows]
+      .map((row) => row.map(csvCell).join(","))
+      .join("\n");
+    downloadText(filename, csv, "text/csv");
+  }
+
+  function csvCell(value) {
+    const text = formatValue(value).replace(/"/g, "\"\"");
+    return `"${text}"`;
+  }
+
   function fillAdminForm(form, pkg) {
     if (!form || !pkg) return;
     setFormValue(form, "id", pkg.id);
@@ -466,7 +847,11 @@
   }
 
   function downloadJson(filename, data) {
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    downloadText(filename, JSON.stringify(data, null, 2), "application/json");
+  }
+
+  function downloadText(filename, content, type) {
+    const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;

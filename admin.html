@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Package Admin | PC Fantasy Travel</title>
+  <title>Admin | PC Fantasy Travel</title>
   <meta name="robots" content="noindex">
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
@@ -11,14 +11,14 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="nav-wrap">
-      <a class="brand" href="index.html" aria-label="PC Fantasy Travel home"><span class="brand-mark">PC</span><span class="brand-text"><span class="brand-name">PC Fantasy Travel</span><span class="brand-tagline">Package editor</span></span></a>
+      <a class="brand" href="index.html" aria-label="PC Fantasy Travel home"><img class="brand-logo" src="assets/images/pc-fantasy-travel-logo.png" alt="PC Fantasy Travel"></a>
       <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" data-nav-toggle><span></span><span></span><span></span></button>
       <nav class="site-nav" aria-label="Main navigation" data-site-nav>
         <ul>
           <li><a href="index.html">Home</a></li><li><a href="plan-my-trip.html">Plan My Trip</a></li><li><a href="vacation-packages.html">Vacation Packages</a></li><li><a href="cruises.html">Cruises</a></li><li><a href="group-trips.html">Group Trips</a></li><li><a href="event-travel.html">Event Travel</a></li><li><a href="travel-resources.html">Travel Resources</a></li><li><a href="about-pia.html">About Pia</a></li><li><a href="become-a-travel-agent.html">Become a Travel Agent</a></li><li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
-      <a class="button small header-cta" href="vacation-packages.html">View Packages</a>
+      <a class="button small header-cta" href="index.html">View Site</a>
     </div>
   </header>
 
@@ -26,62 +26,99 @@
     <section class="page-hero">
       <div class="wrap">
         <div class="breadcrumb"><a href="index.html">Home</a> / Admin</div>
-        <p class="eyebrow">CMS-ready package structure</p>
-        <h1 class="page-title">Package Card Admin</h1>
-        <p class="lead">Edit package titles, images, tags, vendor links, CTA labels, inclusions, exclusions, and lead tags.</p>
+        <p class="eyebrow">Owner dashboard</p>
+        <h1 class="page-title">PC Fantasy Travel Admin</h1>
+        <p class="lead">Review contact requests, update lead status, export inquiries, and manage package cards.</p>
       </div>
     </section>
 
     <section class="section" data-admin-root>
       <div class="wrap">
         <div class="admin-toolbar">
-          <div class="cta-row">
-            <button class="button" type="button" data-admin-new>New Package</button>
-            <button class="button-outline" type="button" data-admin-export>Export JSON</button>
-            <button class="button-outline" type="button" data-admin-reset>Reset Sample Data</button>
+          <div class="admin-tabs" role="tablist" aria-label="Admin sections">
+            <button class="admin-tab is-active" id="admin-tab-leads" type="button" role="tab" aria-selected="true" aria-controls="admin-leads" data-admin-tab="leads">Leads</button>
+            <button class="admin-tab" id="admin-tab-packages" type="button" role="tab" aria-selected="false" aria-controls="admin-packages" data-admin-tab="packages">Packages</button>
           </div>
-          <a class="button-text" href="vacation-packages.html">View public package library</a>
+          <a class="button-text" href="index.html">View public site</a>
         </div>
-        <div class="admin-grid">
-          <aside class="admin-panel">
-            <h2>Packages</h2>
-            <div class="admin-list" data-admin-list></div>
-          </aside>
-          <div class="admin-panel">
-            <form data-admin-form>
-              <div class="form-grid two">
-                <div class="field"><label for="id">Package ID</label><input id="id" name="id"></div>
-                <div class="field"><label for="title">Title</label><input id="title" name="title" required></div>
-                <div class="field"><label for="destination">Destination</label><input id="destination" name="destination"></div>
-                <div class="field"><label for="travelType">Travel type</label><input id="travelType" name="travelType"></div>
-                <div class="field"><label for="dates">Dates</label><input id="dates" name="dates"></div>
-                <div class="field"><label for="duration">Duration</label><input id="duration" name="duration"></div>
-                <div class="field"><label for="price">Starting price</label><input id="price" name="price"></div>
-                <div class="field"><label for="image">Image path</label><input id="image" name="image"></div>
-                <div class="field"><label for="cta">Request CTA</label><input id="cta" name="cta"></div>
-                <div class="field"><label for="leadType">Lead tag</label><input id="leadType" name="leadType"></div>
-                <div class="field"><label for="vendorLabel">Vendor button label</label><input id="vendorLabel" name="vendorLabel"></div>
-                <div class="field"><label for="vendorUrl">Vendor URL</label><input id="vendorUrl" name="vendorUrl" type="url"></div>
-                <div class="field"><label for="tags">Tags</label><textarea id="tags" name="tags"></textarea></div>
-                <div class="field"><label for="included">What's included</label><textarea id="included" name="included"></textarea></div>
-                <div class="field"><label for="notIncluded">What's not included</label><textarea id="notIncluded" name="notIncluded"></textarea></div>
-                <div class="field"><label for="idealFor">Ideal for</label><textarea id="idealFor" name="idealFor"></textarea></div>
-              </div>
-              <div class="form-actions">
-                <button class="button" type="submit">Save Package</button>
-              </div>
-            </form>
-            <h2>Export Preview</h2>
-            <pre class="admin-preview" data-admin-preview></pre>
+
+        <section class="admin-view" id="admin-leads" role="tabpanel" aria-labelledby="admin-tab-leads" data-admin-view="leads">
+          <div class="admin-toolbar">
+            <div class="admin-stats" data-lead-stats></div>
+            <div class="cta-row">
+              <button class="button-outline" type="button" data-leads-export-csv>Export CSV</button>
+              <button class="button-outline" type="button" data-leads-export-json>Export JSON</button>
+            </div>
           </div>
-        </div>
+          <div class="lead-filters">
+            <div class="field"><label for="leadSearch">Search leads</label><input id="leadSearch" name="leadSearch" type="search" data-lead-search placeholder="Name, email, phone, destination"></div>
+            <div class="field"><label for="leadTypeFilter">Type</label><select id="leadTypeFilter" name="leadTypeFilter" data-lead-type-filter><option value="">All types</option></select></div>
+            <div class="field"><label for="leadStatusFilter">Status</label><select id="leadStatusFilter" name="leadStatusFilter" data-lead-status-filter><option value="">All statuses</option><option>New</option><option>Contacted</option><option>Quoted</option><option>Booked</option><option>Closed</option></select></div>
+          </div>
+          <div class="admin-grid lead-admin-grid">
+            <aside class="admin-panel">
+              <div class="section-head">
+                <p class="eyebrow">Inbox</p>
+                <h2>Lead Requests</h2>
+              </div>
+              <div class="admin-list" data-leads-list></div>
+            </aside>
+            <div class="admin-panel">
+              <div class="lead-detail" data-lead-detail></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="admin-view hidden" id="admin-packages" role="tabpanel" aria-labelledby="admin-tab-packages" data-admin-view="packages" hidden>
+          <div class="admin-toolbar">
+            <div class="cta-row">
+              <button class="button" type="button" data-admin-new>New Package</button>
+              <button class="button-outline" type="button" data-admin-export>Export JSON</button>
+              <button class="button-outline" type="button" data-admin-reset>Reset Sample Data</button>
+            </div>
+            <a class="button-text" href="vacation-packages.html">View public package library</a>
+          </div>
+          <div class="admin-grid">
+            <aside class="admin-panel">
+              <h2>Packages</h2>
+              <div class="admin-list" data-admin-list></div>
+            </aside>
+            <div class="admin-panel">
+              <form data-admin-form>
+                <div class="form-grid two">
+                  <div class="field"><label for="id">Package ID</label><input id="id" name="id"></div>
+                  <div class="field"><label for="title">Title</label><input id="title" name="title" required></div>
+                  <div class="field"><label for="destination">Destination</label><input id="destination" name="destination"></div>
+                  <div class="field"><label for="travelType">Travel type</label><input id="travelType" name="travelType"></div>
+                  <div class="field"><label for="dates">Dates</label><input id="dates" name="dates"></div>
+                  <div class="field"><label for="duration">Duration</label><input id="duration" name="duration"></div>
+                  <div class="field"><label for="price">Starting price</label><input id="price" name="price"></div>
+                  <div class="field"><label for="image">Image path</label><input id="image" name="image"></div>
+                  <div class="field"><label for="cta">Request CTA</label><input id="cta" name="cta"></div>
+                  <div class="field"><label for="leadType">Lead tag</label><input id="leadType" name="leadType"></div>
+                  <div class="field"><label for="vendorLabel">Vendor button label</label><input id="vendorLabel" name="vendorLabel"></div>
+                  <div class="field"><label for="vendorUrl">Vendor URL</label><input id="vendorUrl" name="vendorUrl" type="url"></div>
+                  <div class="field"><label for="tags">Tags</label><textarea id="tags" name="tags"></textarea></div>
+                  <div class="field"><label for="included">What's included</label><textarea id="included" name="included"></textarea></div>
+                  <div class="field"><label for="notIncluded">What's not included</label><textarea id="notIncluded" name="notIncluded"></textarea></div>
+                  <div class="field"><label for="idealFor">Ideal for</label><textarea id="idealFor" name="idealFor"></textarea></div>
+                </div>
+                <div class="form-actions">
+                  <button class="button" type="submit">Save Package</button>
+                </div>
+              </form>
+              <h2>Export Preview</h2>
+              <pre class="admin-preview" data-admin-preview></pre>
+            </div>
+          </div>
+        </section>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="wrap footer-grid">
-      <div><h2>PC Fantasy Travel</h2><p>Admin edits are stored in this browser and can be exported as JSON.</p></div>
+      <div><h2>PC Fantasy Travel</h2><p>Lead and package exports are available from this admin dashboard.</p></div>
       <div><h3>Public Pages</h3><ul class="footer-list"><li><a href="index.html">Home</a></li><li><a href="vacation-packages.html">Vacation Packages</a></li><li><a href="plan-my-trip.html">Plan My Trip</a></li></ul></div>
       <div><h3>Data</h3><ul class="footer-list"><li><a href="data/packages.js">Package source</a></li><li><a href="data/email-templates.js">Email templates</a></li><li><a href="resources/vacation-planning-checklist.txt">Checklist</a></li></ul></div>
       <div><h3>Trust</h3><ul class="footer-list"><li><a href="policies.html#privacy">Privacy Policy</a></li><li><a href="policies.html#terms">Terms</a></li><li><a href="policies.html#travel-disclaimer">Travel disclaimer</a></li></ul></div>
