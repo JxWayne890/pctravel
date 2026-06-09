@@ -29,6 +29,8 @@
     const nav = document.querySelector("[data-site-nav]");
     if (!toggle || !nav) return;
 
+    setCurrentNavItem(nav);
+
     toggle.addEventListener("click", () => {
       const isOpen = nav.classList.toggle("is-open");
       toggle.setAttribute("aria-expanded", String(isOpen));
@@ -38,6 +40,31 @@
       if (event.target.closest("a")) {
         nav.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
+        nav.querySelectorAll("[data-nav-more]").forEach((details) => {
+          details.open = false;
+        });
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (event.target.closest("[data-site-nav]") || event.target.closest("[data-nav-toggle]")) return;
+      nav.querySelectorAll("[data-nav-more]").forEach((details) => {
+        details.open = false;
+      });
+    });
+  }
+
+  function setCurrentNavItem(nav) {
+    const currentPage = window.location.pathname.split("/").pop() || "index.html";
+    nav.querySelectorAll("a[href]").forEach((link) => {
+      const href = link.getAttribute("href") || "";
+      const linkPage = href.split("#")[0] || "index.html";
+      const isCurrent = linkPage === currentPage;
+      if (isCurrent) {
+        link.setAttribute("aria-current", "page");
+        link.closest(".nav-more")?.classList.add("has-current");
+      } else {
+        link.removeAttribute("aria-current");
       }
     });
   }
