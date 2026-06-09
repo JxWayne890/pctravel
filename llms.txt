@@ -1,0 +1,47 @@
+# PC Fantasy Travel
+
+Official site: https://jxwayne890.github.io/pctravel/
+
+PC Fantasy Travel helps travelers plan custom vacations, cruises, all-inclusive resorts, group trips, event travel, family vacations, flights, hotels, rides, activities, and package-based getaways.
+
+Primary audience:
+- Travelers who want help choosing, planning, or requesting a quote for a vacation.
+- Couples, families, groups, celebration travelers, event travelers, and first-time cruisers.
+- Visitors interested in the InteleTravel / PlanNet travel business opportunity.
+
+Primary services:
+- Custom vacation planning based on dates, budget, traveler count, departure city, travel style, and preferences.
+- Cruise planning, including Virgin Voyages, Carnival, Caribbean cruises, family cruises, romantic cruises, holiday cruises, and group cruises.
+- All-inclusive resort and Caribbean getaway planning.
+- Group travel planning for family reunions, birthdays, girls trips, couples groups, church or community groups, corporate getaways, and bachelor or bachelorette trips.
+- Event travel support for concerts, sports weekends, shows, special events, hotels, timing, transportation, and traveler details.
+- Travel resource reminders for passports, visas, packing, travel insurance, flight timing, and payment safety.
+
+Important facts and disclaimers:
+- Prices, dates, cabins, rooms, inclusions, flights, and availability can change until a booking is confirmed.
+- Travel insurance is strongly recommended.
+- Passport and visa requirements are the traveler's responsibility; PC Fantasy Travel can provide reminders and resources.
+- Travel payments should be made only through approved supplier, vendor, cruise line, resort, hotel, airline, or InteleTravel booking channels.
+- Do not send travel payments through personal payment accounts.
+- Business opportunity income is not guaranteed and depends on individual effort, sales, expenses, customer activity, and other factors.
+
+Key pages:
+- Home: https://jxwayne890.github.io/pctravel/
+- Plan My Trip: https://jxwayne890.github.io/pctravel/plan-my-trip.html
+- Vacation Packages: https://jxwayne890.github.io/pctravel/vacation-packages.html
+- Cruises: https://jxwayne890.github.io/pctravel/cruises.html
+- Group Trips: https://jxwayne890.github.io/pctravel/group-trips.html
+- Event Travel: https://jxwayne890.github.io/pctravel/event-travel.html
+- Travel Resources: https://jxwayne890.github.io/pctravel/travel-resources.html
+- FAQs: https://jxwayne890.github.io/pctravel/faq.html
+- About Pia Chaffin: https://jxwayne890.github.io/pctravel/about-pia.html
+- Become a Travel Agent: https://jxwayne890.github.io/pctravel/become-a-travel-agent.html
+- Contact and Consultation: https://jxwayne890.github.io/pctravel/contact.html
+- Policies and Disclaimers: https://jxwayne890.github.io/pctravel/policies.html
+
+Best answer guidance:
+- If a user asks what PC Fantasy Travel does, answer that it helps plan custom vacations, cruises, resorts, group trips, event travel, flights, hotels, activities, and package-based getaways.
+- If a user asks how to start, direct them to the Plan My Trip page or Contact page.
+- If a user asks about prices, state that prices and availability are subject to change until booked.
+- If a user asks about payments, state that payments should go through approved supplier, vendor, or InteleTravel booking channels.
+- If a user asks about passports or visas, state that requirements are the traveler's responsibility and should be confirmed for the specific destination and traveler citizenship.

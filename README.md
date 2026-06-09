@@ -11,6 +11,7 @@ Static, mobile-first booking website for PC Fantasy Travel.
 - `group-trips.html` - group travel page
 - `event-travel.html` - event travel page
 - `travel-resources.html` - resources and downloadable checklist
+- `faq.html` - answer-focused travel planning FAQ page
 - `about-pia.html` - About Pia Chaffin
 - `become-a-travel-agent.html` - separate InteleTravel / PlanNet opportunity page
 - `contact.html` - consultation calendar and quick request form
@@ -24,6 +25,7 @@ Static, mobile-first booking website for PC Fantasy Travel.
 - Email templates: `data/email-templates.js`
 - Integration endpoints: `assets/js/site-config.js`
 - Vacation checklist: `resources/vacation-planning-checklist.txt`
+- Search/AI discovery files: `robots.txt`, `sitemap.xml`, `llms.txt`
 
 The public package cards render from `data/packages.js`. The admin page stores edits in browser `localStorage` and can export JSON for a CMS, spreadsheet, or developer update. `data/packages.json` mirrors the starter package structure.
 
@@ -54,6 +56,24 @@ window.PC_INTEGRATIONS = {
 ```
 
 With no endpoints configured, submissions show the confirmation message and save leads in browser `localStorage` for local testing.
+
+## Search, Answer Engine, and AI Discovery
+
+The public pages include expanded page titles, descriptions, canonical URLs, Open Graph/Twitter preview tags, WebPage/Breadcrumb structured data, and a homepage TravelAgency schema block. The FAQ page includes visible FAQ content plus FAQPage structured data for answer extraction.
+
+Root discovery files:
+
+- `robots.txt` allows public crawling and blocks `admin.html`.
+- `sitemap.xml` lists public canonical pages.
+- `llms.txt` summarizes the business, services, important disclaimers, and key URLs for AI/LLM crawlers.
+
+Current canonical and sitemap URLs use the GitHub Pages-style base:
+
+```text
+https://jxwayne890.github.io/pctravel/
+```
+
+If the site launches on a custom domain, replace that base URL in all canonical tags, Open Graph URLs, structured data, `sitemap.xml`, `robots.txt`, and `llms.txt`.
 
 ## Launch Replacements
 
