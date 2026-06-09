@@ -1,0 +1,309 @@
+[
+  {
+    "id": "virgin-voyages-holiday-cruise",
+    "title": "Virgin Voyages Holiday Cruise",
+    "destination": "Caribbean Holiday Sailing",
+    "travelType": "Adults-focused cruise",
+    "dates": "December 26-30, 2026, pending client confirmation",
+    "duration": "4 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-holiday-cruise.jpg",
+    "tags": [
+      "Cruise",
+      "Virgin Voyages",
+      "Caribbean",
+      "Holiday Travel",
+      "Luxury",
+      "Couples"
+    ],
+    "included": [
+      "Cruise accommodations",
+      "Dining options",
+      "Ship entertainment",
+      "Supplier booking support"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Travel insurance",
+      "Shore excursions",
+      "Passport fees"
+    ],
+    "idealFor": [
+      "Adults",
+      "Couples",
+      "Friend groups",
+      "Holiday travelers"
+    ],
+    "cta": "Request Virgin Voyages Details",
+    "vendorLabel": "Virgin Voyages Link",
+    "vendorUrl": "https://example.com/virgin-voyages-booking-link",
+    "leadType": "cruise"
+  },
+  {
+    "id": "carnival-romance-at-sea",
+    "title": "Carnival Romance at Sea",
+    "destination": "Warm-weather Cruise Getaway",
+    "travelType": "Cruise / couples getaway",
+    "dates": "Flexible dates available",
+    "duration": "3-7 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-holiday-cruise.jpg",
+    "tags": [
+      "Cruise",
+      "Carnival",
+      "Couples",
+      "Budget-Friendly",
+      "Caribbean"
+    ],
+    "included": [
+      "Cruise quote support",
+      "Cabin option guidance",
+      "Dining and onboard activity planning"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Port transfers",
+      "Travel insurance",
+      "Specialty experiences"
+    ],
+    "idealFor": [
+      "Couples",
+      "Anniversaries",
+      "Birthdays",
+      "First-time cruisers"
+    ],
+    "cta": "Request Carnival Cruise Quote",
+    "vendorLabel": "Carnival Vendor Link",
+    "vendorUrl": "https://example.com/carnival-booking-link",
+    "leadType": "cruise"
+  },
+  {
+    "id": "abc-islands-caribbean-cruise",
+    "title": "Aruba, Bonaire & Curacao Caribbean Cruise",
+    "destination": "Aruba, Bonaire & Curacao",
+    "travelType": "Caribbean cruise",
+    "dates": "Seasonal sailings",
+    "duration": "6-9 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-abc-cruise.jpg",
+    "tags": [
+      "Cruise",
+      "Caribbean",
+      "Family",
+      "Group Trips",
+      "Luxury"
+    ],
+    "included": [
+      "Cruise itinerary guidance",
+      "Cabin category recommendations",
+      "Port and excursion planning"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Excursions",
+      "Travel insurance",
+      "Personal spending"
+    ],
+    "idealFor": [
+      "Beach lovers",
+      "Families",
+      "Groups",
+      "Island explorers"
+    ],
+    "cta": "Request ABC Islands Cruise",
+    "vendorLabel": "Vendor Link Placeholder",
+    "vendorUrl": "https://example.com/abc-islands-cruise-link",
+    "leadType": "cruise"
+  },
+  {
+    "id": "barbados-island-escape",
+    "title": "Barbados Island Escape",
+    "destination": "Barbados",
+    "travelType": "Caribbean getaway",
+    "dates": "Flexible dates available",
+    "duration": "4-7 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-barbados.jpg",
+    "tags": [
+      "Caribbean",
+      "All-Inclusive",
+      "Couples",
+      "Family",
+      "Budget-Friendly"
+    ],
+    "included": [
+      "Resort and hotel search",
+      "Flight plus hotel options",
+      "Activity suggestions",
+      "Transfer guidance"
+    ],
+    "notIncluded": [
+      "Passport fees",
+      "Travel insurance",
+      "Resort incidentals",
+      "Optional tours"
+    ],
+    "idealFor": [
+      "Couples",
+      "Families",
+      "Birthday trips",
+      "Relaxation"
+    ],
+    "cta": "Plan My Barbados Trip",
+    "vendorLabel": "Resort Vendor Link",
+    "vendorUrl": "https://example.com/barbados-vendor-link",
+    "leadType": "resort"
+  },
+  {
+    "id": "seychelles-dream-vacation",
+    "title": "Seychelles Dream Vacation",
+    "destination": "Seychelles",
+    "travelType": "Luxury island escape",
+    "dates": "Custom dates",
+    "duration": "6-10 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-seychelles.jpg",
+    "tags": [
+      "Luxury",
+      "Couples",
+      "All-Inclusive",
+      "Europe"
+    ],
+    "included": [
+      "Luxury resort research",
+      "Flight routing support",
+      "Island activity planning",
+      "Supplier booking options"
+    ],
+    "notIncluded": [
+      "Flights unless packaged",
+      "Travel insurance",
+      "Visa/passport fees",
+      "Premium excursions"
+    ],
+    "idealFor": [
+      "Honeymoons",
+      "Anniversaries",
+      "Luxury travelers",
+      "Bucket-list trips"
+    ],
+    "cta": "Request Seychelles Quote",
+    "vendorLabel": "Luxury Vendor Link",
+    "vendorUrl": "https://example.com/seychelles-vendor-link",
+    "leadType": "custom package"
+  },
+  {
+    "id": "norway-bergen-european-adventure",
+    "title": "Norway & Bergen European Adventure",
+    "destination": "Bergen, Norway",
+    "travelType": "Europe / scenic city and fjord inspiration",
+    "dates": "Spring through fall inspiration",
+    "duration": "5-9 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-norway.jpg",
+    "tags": [
+      "Europe",
+      "Luxury",
+      "Family",
+      "Group Trips"
+    ],
+    "included": [
+      "Hotel research",
+      "Scenic itinerary ideas",
+      "Transportation planning",
+      "Activity recommendations"
+    ],
+    "notIncluded": [
+      "Flights",
+      "Rail passes",
+      "Travel insurance",
+      "Optional tours"
+    ],
+    "idealFor": [
+      "Scenic travelers",
+      "Families",
+      "Couples",
+      "Culture and city trips"
+    ],
+    "cta": "Plan Europe With Me",
+    "vendorLabel": "Europe Vendor Link",
+    "vendorUrl": "https://example.com/norway-bergen-link",
+    "leadType": "custom package"
+  },
+  {
+    "id": "family-holiday-park-escape",
+    "title": "Family Holiday Park Escape",
+    "destination": "Family-friendly resort park",
+    "travelType": "Family vacation",
+    "dates": "Holiday and school-break options",
+    "duration": "2-5 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-family-park.jpg",
+    "tags": [
+      "Family",
+      "Holiday Travel",
+      "Budget-Friendly",
+      "Group Trips"
+    ],
+    "included": [
+      "Family lodging search",
+      "Room count planning",
+      "Activity suggestions",
+      "Payment option guidance"
+    ],
+    "notIncluded": [
+      "Transportation",
+      "Travel insurance",
+      "Meals unless packaged",
+      "Theme/event tickets"
+    ],
+    "idealFor": [
+      "Families",
+      "Reunions",
+      "School breaks",
+      "Multi-room stays"
+    ],
+    "cta": "Request Family Trip Options",
+    "vendorLabel": "Family Vendor Link",
+    "vendorUrl": "https://example.com/family-park-link",
+    "leadType": "custom package"
+  },
+  {
+    "id": "concert-hotel-travel-package",
+    "title": "Concert + Hotel Travel Package",
+    "destination": "Event city of choice",
+    "travelType": "Event travel",
+    "dates": "Based on event date",
+    "duration": "1-4 nights",
+    "price": "Request Quote",
+    "image": "assets/images/package-event-travel.jpg",
+    "tags": [
+      "Event Travel",
+      "Group Trips",
+      "Budget-Friendly",
+      "Luxury"
+    ],
+    "included": [
+      "Hotel search",
+      "Transportation options",
+      "Event-area travel planning",
+      "Group details collection"
+    ],
+    "notIncluded": [
+      "Event tickets unless arranged through vendor",
+      "Flights",
+      "Travel insurance",
+      "Personal expenses"
+    ],
+    "idealFor": [
+      "Concerts",
+      "Sports trips",
+      "Shows",
+      "Weekend groups"
+    ],
+    "cta": "Get Event Travel Help",
+    "vendorLabel": "Golden Tickets Placeholder",
+    "vendorUrl": "https://example.com/event-ticket-vendor-link",
+    "leadType": "event travel"
+  }
+]
