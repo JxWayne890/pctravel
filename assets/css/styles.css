@@ -457,6 +457,43 @@ h3 {
   box-shadow: 0 12px 28px rgba(8, 26, 54, 0.07);
 }
 
+.quick-card,
+.service-card,
+.value-card,
+.resource-card,
+.proof-card,
+.package-card,
+.policy-card,
+.faq-item {
+  position: relative;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease;
+}
+
+.quick-card:hover,
+.quick-card:focus-visible,
+.service-card:hover,
+.service-card:focus-within,
+.value-card:hover,
+.value-card:focus-within,
+.resource-card:hover,
+.resource-card:focus-within,
+.proof-card:hover,
+.proof-card:focus-within,
+.package-card:hover,
+.package-card:focus-within,
+.policy-card:hover,
+.policy-card:focus-within,
+.faq-item:hover,
+.faq-item:focus-within {
+  border-color: rgba(231, 45, 134, 0.28);
+  box-shadow: 0 22px 48px rgba(8, 26, 54, 0.13);
+  transform: translateY(-5px);
+}
+
 .quick-card {
   min-height: 210px;
   padding: 1.25rem;
@@ -464,22 +501,30 @@ h3 {
   align-content: space-between;
   text-decoration: none;
   overflow: hidden;
-  position: relative;
 }
 
 .quick-card::before {
   content: "";
   position: absolute;
-  inset: 0;
-  border-top: 6px solid var(--gold);
+  inset: 0 0 auto;
+  height: 6px;
+  background: var(--gold);
+  transform: scaleX(0.32);
+  transform-origin: left;
+  transition: transform 0.22s ease;
 }
 
 .quick-card:nth-child(2)::before {
-  border-top-color: var(--teal);
+  background: var(--teal);
 }
 
 .quick-card:nth-child(3)::before {
-  border-top-color: var(--pink);
+  background: var(--pink);
+}
+
+.quick-card:hover::before,
+.quick-card:focus-visible::before {
+  transform: scaleX(1);
 }
 
 .quick-card p,
@@ -496,7 +541,7 @@ h3 {
 }
 
 .services-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
 }
 
 .service-card,
@@ -504,35 +549,83 @@ h3 {
 .resource-card,
 .proof-card,
 .policy-card {
+  overflow: hidden;
   padding: 1rem;
 }
 
 .service-card {
-  min-height: 126px;
-}
-
-.service-kicker {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius);
+  min-height: 150px;
   display: grid;
-  place-items: center;
-  color: var(--white);
-  font-weight: 900;
-  background: var(--navy);
-  margin-bottom: 0.75rem;
+  align-content: start;
+  gap: 0.5rem;
+  padding: clamp(1.05rem, 3vw, 1.35rem);
 }
 
-.service-card:nth-child(3n + 1) .service-kicker {
-  background: var(--pink);
+.service-card::before,
+.value-card::before,
+.resource-card::before,
+.proof-card::before,
+.policy-card::before,
+.faq-item::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--pink), var(--gold), var(--teal));
+  transform: scaleX(0.18);
+  transform-origin: left;
+  transition: transform 0.22s ease;
 }
 
-.service-card:nth-child(3n + 2) .service-kicker {
-  background: var(--purple);
+.service-card:nth-child(3n + 2)::before,
+.value-card:nth-child(3n + 2)::before,
+.resource-card:nth-child(3n + 2)::before {
+  background: linear-gradient(90deg, var(--purple), var(--pink));
 }
 
-.service-card:nth-child(3n + 3) .service-kicker {
-  background: var(--teal);
+.service-card:nth-child(3n + 3)::before,
+.value-card:nth-child(3n + 3)::before,
+.resource-card:nth-child(3n + 3)::before {
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+}
+
+.service-card:hover::before,
+.service-card:focus-within::before,
+.value-card:hover::before,
+.value-card:focus-within::before,
+.resource-card:hover::before,
+.resource-card:focus-within::before,
+.proof-card:hover::before,
+.proof-card:focus-within::before,
+.policy-card:hover::before,
+.policy-card:focus-within::before,
+.faq-item:hover::before,
+.faq-item:focus-within::before {
+  transform: scaleX(1);
+}
+
+.service-card h3,
+.value-card h3,
+.resource-card h3,
+.proof-card h3,
+.policy-card h3,
+.faq-item h3 {
+  transition: color 0.22s ease;
+}
+
+.service-card:hover h3,
+.service-card:focus-within h3,
+.value-card:hover h3,
+.value-card:focus-within h3,
+.resource-card:hover h3,
+.resource-card:focus-within h3,
+.proof-card:hover h3,
+.proof-card:focus-within h3,
+.policy-card:hover h3,
+.policy-card:focus-within h3,
+.faq-item:hover h3,
+.faq-item:focus-within h3 {
+  color: var(--pink);
 }
 
 .check-list {
@@ -571,6 +664,7 @@ h3 {
   padding: clamp(1rem, 3vw, 1.25rem);
   background: var(--white);
   box-shadow: 0 10px 24px rgba(8, 26, 54, 0.06);
+  overflow: hidden;
 }
 
 .faq-item h3 {
@@ -592,6 +686,13 @@ h3 {
   aspect-ratio: 16 / 10;
   object-fit: cover;
   background: var(--sky);
+  transition: transform 0.34s ease, filter 0.34s ease;
+}
+
+.package-card:hover img,
+.package-card:focus-within img {
+  filter: saturate(1.06);
+  transform: scale(1.045);
 }
 
 .package-body {
@@ -1127,6 +1228,7 @@ h3 {
   }
 
   .quick-grid,
+  .services-grid,
   .value-grid,
   .resource-grid,
   .footer-grid {
@@ -1307,5 +1409,26 @@ h3 {
   *::after {
     scroll-behavior: auto !important;
     transition: none !important;
+  }
+
+  .quick-card:hover,
+  .quick-card:focus-visible,
+  .service-card:hover,
+  .service-card:focus-within,
+  .value-card:hover,
+  .value-card:focus-within,
+  .resource-card:hover,
+  .resource-card:focus-within,
+  .proof-card:hover,
+  .proof-card:focus-within,
+  .package-card:hover,
+  .package-card:focus-within,
+  .policy-card:hover,
+  .policy-card:focus-within,
+  .faq-item:hover,
+  .faq-item:focus-within,
+  .package-card:hover img,
+  .package-card:focus-within img {
+    transform: none !important;
   }
 }
